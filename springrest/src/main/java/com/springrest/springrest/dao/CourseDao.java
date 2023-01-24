@@ -8,4 +8,6 @@ import com.springrest.springrest.entties.Course;
 @Repository
 public interface CourseDao extends JpaRepository<Course, Long> {
 
+	Course getOne(String courseName);
+
 }

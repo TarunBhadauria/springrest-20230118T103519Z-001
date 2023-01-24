@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.springrest.exception.CourseException;
 import com.springrest.springrest.entties.Course;
 import com.springrest.springrest.services.CourseService;
 
@@ -38,6 +39,12 @@ public class MyController {
 	public Course getCourse(@PathVariable String courseId) {
 		return this.courseService.getCourse(Long.parseLong(courseId));
 	}
+	//coursebyname
+//	@GetMapping("/courses/{courseName}")
+//	public Course getcoursebyName(@PathVariable String courseName) {
+//		return this.courseService.getCourse(courseName);
+//	}
+	
 	//course add
 	@PostMapping("/courses")
 	public Course addCourse(@RequestBody Course course) {
@@ -52,12 +59,12 @@ public class MyController {
 	
 	//delete course
 	@DeleteMapping("/courses/{courseId}")
-	public ResponseEntity<HttpStatus> deleteCourse( @PathVariable String courseId){
-		try {
-			this.courseService.deleteCourse(Long.parseLong(courseId));
-			return new ResponseEntity<>(HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
+    public ResponseEntity<HttpStatus> deleteCourse( @PathVariable String courseId)throws CourseException{
+        try {
+            this.courseService.deleteCourse(Long.parseLong(courseId));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (CourseException e) {
+            throw new CourseException("There is some error.");
+        }
+    }
 }
